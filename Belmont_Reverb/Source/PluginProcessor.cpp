@@ -98,18 +98,18 @@ void Belmont_ReverbAudioProcessor::prepareToPlay (double sampleRate, int samples
     spec.numChannels = getTotalNumOutputChannels();
     convolution.prepare(spec);
     
-    auto irFile = juce::File::getSpecialLocation(juce::File::userDesktopDirectory).getChildFile("Large Church.aif");
+   // auto irFile = juce::File::getSpecialLocation(juce::File::userDesktopDirectory).getChildFile("Large Church.aif");
     
-    if( irFile.existsAsFile())
-    {
-        convolution.loadImpulseResponse(irFile, juce::dsp::Convolution::Stereo::yes,
-                                        juce::dsp::Convolution::Trim::yes, 0);
-    }
-    else
-    {
-        DBG("IR file not found: " + irFile.getFullPathName());
-    }
-    
+//    if( irFile.existsAsFile())
+//    {
+//        convolution.loadImpulseResponse(irFile, juce::dsp::Convolution::Stereo::yes,
+//                                        juce::dsp::Convolution::Trim::yes, 0);
+//    }
+//    else
+//    {
+//        DBG("IR file not found: " + irFile.getFullPathName());
+//    }
+//
     
 }
 
@@ -179,6 +179,53 @@ void Belmont_ReverbAudioProcessor::setStateInformation (const void* data, int si
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+void Belmont_ReverbAudioProcessor::setImpulseResponseFromID(int id) {
+    
+    convolution.reset();
+    
+    switch (id)
+    {
+        case 1: // Echo Plate
+            convolution.loadImpulseResponse(BinaryData::Echo_Plate_aif, BinaryData::Echo_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+         
+        case 2: // A Plate
+            convolution.loadImpulseResponse(BinaryData::A_Plate_aif, BinaryData::A_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+            
+        case 3: // Jazz Hall
+            convolution.loadImpulseResponse(BinaryData::Jazz_Hall_aif, BinaryData::Jazz_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+            
+        case 4: // Large Church
+            convolution.loadImpulseResponse(BinaryData::Large_Church_aif, BinaryData::Large_Church_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+            
+        case 5: // Large Room
+            convolution.loadImpulseResponse(BinaryData::Large_Room_aif, BinaryData::Large_Room_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+            
+        case 6: // Medium Hall
+            convolution.loadImpulseResponse(BinaryData::Medium_Hall_aif, BinaryData::Medium_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+            
+        case 7: // Small Hall
+            convolution.loadImpulseResponse(BinaryData::Small_Hall_aif, BinaryData::Small_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+        
+        break;
+            
+        default:
+                    DBG("Invalid IR ID");
+                    break;
+    }
 }
 
 //==============================================================================

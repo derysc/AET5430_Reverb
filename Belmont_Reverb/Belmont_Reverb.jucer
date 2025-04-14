@@ -3,19 +3,25 @@
 <JUCERPROJECT id="aAgwRL" name="Belmont_Reverb" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="x2zZrF" name="Belmont_Reverb">
+    <GROUP id="{2258B3AD-5D29-7202-8516-4D591225190E}" name="Resources">
+      <FILE id="XpAjbk" name="A Plate.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/A Plate.aif"/>
+      <FILE id="X7VKnc" name="Echo Plate.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Echo Plate.aif"/>
+      <FILE id="UJt35C" name="Jazz Hall.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Jazz Hall.aif"/>
+      <FILE id="s5kulF" name="Large Church.aif" compile="0" resource="1"
+            file="../../Desktop/Large Church.aif"/>
+      <FILE id="PCW2xl" name="Large Room.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Large Room.aif"/>
+      <FILE id="sf5Xu5" name="Medium Hall.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Medium Hall.aif"/>
+      <FILE id="xziv9U" name="Small Hall.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Small Hall.aif"/>
+    </GROUP>
     <GROUP id="{F34F4466-6F71-9B0E-FF97-450354BCB51D}" name="Source">
       <FILE id="Ru4wKD" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="sLyuGA" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
       <FILE id="mpi99f" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
-      <FILE id="A146Oo" name="AudioProcessor.cpp" compile="1" resource="0"
-            file="Source/AudioProcessor.cpp"/>
       <FILE id="epmLo8" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
       <FILE id="JkkumA" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
-      <FILE id="pXfn3q" name="AudioProcessor.h" compile="0" resource="0"
-            file="Source/AudioProcessor.h"/>
       <FILE id="YpwHwv" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
   </MAINGROUP>
