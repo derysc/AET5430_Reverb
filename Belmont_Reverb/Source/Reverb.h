@@ -9,11 +9,9 @@
 */
 
 #pragma once
-#include "AudioProcessor.h"
 
-class Reverb : public AudioProcessor
+class Reverb
 {
-    
     public:
     
     float proccesSample(float x, const int channel);

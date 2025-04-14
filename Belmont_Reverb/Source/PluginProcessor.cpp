@@ -93,14 +93,29 @@ void Belmont_ReverbAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void Belmont_ReverbAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    // Use this method as the place to do any pre-playback
-    // initialisation that you need..
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumOutputChannels();
+    convolution.prepare(spec);
+    
+    auto irFile = juce::File::getSpecialLocation(juce::File::userDesktopDirectory).getChildFile("Large Church.aif");
+    
+    if( irFile.existsAsFile())
+    {
+        convolution.loadImpulseResponse(irFile, juce::dsp::Convolution::Stereo::yes,
+                                        juce::dsp::Convolution::Trim::yes, 0);
+    }
+    else
+    {
+        DBG("IR file not found: " + irFile.getFullPathName());
+    }
+    
+    
 }
 
 void Belmont_ReverbAudioProcessor::releaseResources()
 {
-    // When playback stops, you can use this as an opportunity to free up any
-    // spare memory, etc.
+    convolution.reset();
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -110,22 +125,17 @@ bool Belmont_ReverbAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
     juce::ignoreUnused (layouts);
     return true;
   #else
-    // This is the place where you check if the layout is supported.
-    // In this template code we only support mono or stereo.
-    // Some plugin hosts, such as certain GarageBand versions, will only
-    // load plugins that support stereo bus layouts.
     if (layouts.getMainOutputChannelSet() != juce::AudioChannelSet::mono()
      && layouts.getMainOutputChannelSet() != juce::AudioChannelSet::stereo())
         return false;
-
-    // This checks if the input layout matches the output layout
    #if ! JucePlugin_IsSynth
     if (layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet())
         return false;
+
    #endif
 
     return true;
-  #endif
+#endif
 }
 #endif
 
@@ -134,27 +144,15 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    // In case we have more outputs than inputs, this code clears any output
-    // channels that didn't contain input data, (because these aren't
-    // guaranteed to be empty - they may contain garbage).
-    // This is here to avoid people getting screaming feedback
-    // when they first compile a plugin, but obviously you don't need to keep
-    // this code if your algorithm always overwrites all the output channels.
+    
+    
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    {
-        auto* channelData = buffer.getWritePointer (channel);
-
-        // ..do something to the data...
+    juce::dsp::AudioBlock <float> block (buffer);
+    
+    if (convolution.getCurrentIRSize() > 0 ) {
+        convolution.process(juce::dsp::ProcessContextReplacing<float>(block));
     }
 }
 

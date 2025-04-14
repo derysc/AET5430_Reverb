@@ -54,6 +54,8 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 private:
+    juce::dsp::ProcessSpec spec;
+    juce::dsp::Convolution convolution;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessor)
 };
