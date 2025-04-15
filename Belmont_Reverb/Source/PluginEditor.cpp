@@ -43,8 +43,23 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
         audioProcessor.dryWetMix = (float) mixSlider.getValue();
     };
     
+    mixSlider.setValue(0.5f);
     
-//    mixSlider.setValue(0.5f, juce::dontSendNotification);
+    
+//============================================================
+    
+    //outgain knob
+    
+    outGain.setRange(0, 2);
+    outGain.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+    
+    outGain.onValueChange = [this]() {
+        audioProcessor.gain = (float) outGain.getValue();
+    };
+    
+    outGain.setValue(1.f);
+    
+    
 }
 
 Belmont_ReverbAudioProcessorEditor::~Belmont_ReverbAudioProcessorEditor()
@@ -57,15 +72,23 @@ void Belmont_ReverbAudioProcessorEditor::paint (juce::Graphics& g)
     
     g.fillAll (juce::Colours::steelblue);
 
-//    g.setColour (juce::Colours::white);
-//    g.setFont (juce::FontOptions (15.0f));
-//    g.drawte
+    g.setColour (juce::Colours::black);
+    g.setFont (juce::FontOptions (20.f));
+    g.drawSingleLineText("Dry/Wet", 487,209);
+    g.drawSingleLineText("Program:",40,60 );
+    g.drawSingleLineText("OutGain", 487, 60);
+    
     
     
     addAndMakeVisible(menu);
-    menu.setBounds(200,100, 150, 30);
+    menu.setBounds(120,40, 150, 30);
+    
+    
     addAndMakeVisible(mixSlider);
     mixSlider.setBounds(380, 118, 200,300);
+    
+    addAndMakeVisible(outGain);
+    outGain.setBounds(380,-20, 200, 300);
     
 }
 

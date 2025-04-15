@@ -56,6 +56,7 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
     float dryWetMix = 0.5f; // 50%
+    float gain = 1;
 private:
     juce::dsp::ProcessSpec spec;
     juce::dsp::Convolution convolution;

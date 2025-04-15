@@ -98,18 +98,6 @@ void Belmont_ReverbAudioProcessor::prepareToPlay (double sampleRate, int samples
     spec.numChannels = getTotalNumOutputChannels();
     convolution.prepare(spec);
     
-   // auto irFile = juce::File::getSpecialLocation(juce::File::userDesktopDirectory).getChildFile("Large Church.aif");
-    
-//    if( irFile.existsAsFile())
-//    {
-//        convolution.loadImpulseResponse(irFile, juce::dsp::Convolution::Stereo::yes,
-//                                        juce::dsp::Convolution::Trim::yes, 0);
-//    }
-//    else
-//    {
-//        DBG("IR file not found: " + irFile.getFullPathName());
-//    }
-//
     
 }
 
@@ -168,8 +156,8 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         for (int n = 0; n < buffer.getNumSamples() ; ++n) {
             
             if (dryWetMix >= 0.0f) {
-                wet[n] = dry[n] * (1.0f - dryWetMix) + wet[n] * dryWetMix;
-            } 
+                wet[n] = (dry[n] * (1.0f - dryWetMix) + wet[n] * dryWetMix) * gain;
+            }
             
         };
     }

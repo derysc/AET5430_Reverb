@@ -31,5 +31,6 @@ private:
 
     juce::ComboBox menu;
     juce::Slider mixSlider;
+    juce::Slider outGain;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessorEditor)
 };
