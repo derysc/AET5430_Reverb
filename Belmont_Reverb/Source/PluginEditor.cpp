@@ -13,9 +13,10 @@
 Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_ReverbAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
-    // Make sure that before the constructor has finished, you've set the
-    // editor's size to whatever you need it to be.
+    
     setSize (600, 400);
+    
+    //Dropdown menu code
     menu.addItem("Echo Plate", 1);
     menu.addItem("A Plate", 2);
     menu.addItem("Jazz Hall", 3);
@@ -24,9 +25,26 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     menu.addItem("Medium Hall", 6);
     menu.addItem("Small Hall", 7);
     
+    menu.setTextWhenNothingSelected("None");
+    
     menu.onChange = [this]() {
-        audioProcessor.setImpulseResponseFromID(menu.getSelectedId());
+        auto id = menu.getSelectedId();
+        audioProcessor.setImpulseResponseFromID(id);
     };
+    
+//============================================================
+    
+    //Dry/Wey slider code
+    
+    mixSlider.setRange(0, 1);
+    mixSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+    
+    mixSlider.onValueChange = [this]() {
+        audioProcessor.dryWetMix = (float) mixSlider.getValue();
+    };
+    
+    
+//    mixSlider.setValue(0.5f, juce::dontSendNotification);
 }
 
 Belmont_ReverbAudioProcessorEditor::~Belmont_ReverbAudioProcessorEditor()
@@ -46,10 +64,12 @@ void Belmont_ReverbAudioProcessorEditor::paint (juce::Graphics& g)
     
     addAndMakeVisible(menu);
     menu.setBounds(200,100, 150, 30);
+    addAndMakeVisible(mixSlider);
+    mixSlider.setBounds(380, 118, 200,300);
+    
 }
 
 void Belmont_ReverbAudioProcessorEditor::resized()
 {
-    // This is generally where you'll want to lay out the positions of any
-    // subcomponents in your editor..
+    
 }

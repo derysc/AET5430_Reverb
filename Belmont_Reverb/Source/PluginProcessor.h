@@ -55,9 +55,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    float dryWetMix = 0.5f; // 50%
 private:
     juce::dsp::ProcessSpec spec;
     juce::dsp::Convolution convolution;
+    //float dryWetMix = 0.5f; // 50%
+    
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessor)
 };

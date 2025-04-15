@@ -148,11 +148,30 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
-
-    juce::dsp::AudioBlock <float> block (buffer);
     
+    //dry buffer
+    juce::AudioBuffer<float> dryBuffer;
+    dryBuffer.makeCopyOf(buffer);
+    
+    //wet buffer processing
+    juce::dsp::AudioBlock <float> block (buffer);
     if (convolution.getCurrentIRSize() > 0 ) {
         convolution.process(juce::dsp::ProcessContextReplacing<float>(block));
+    }
+    
+    for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
+        
+        auto* dry = dryBuffer.getReadPointer(channel);
+        auto* wet = buffer.getWritePointer(channel);
+        
+        
+        for (int n = 0; n < buffer.getNumSamples() ; ++n) {
+            
+            if (dryWetMix >= 0.0f) {
+                wet[n] = dry[n] * (1.0f - dryWetMix) + wet[n] * dryWetMix;
+            } 
+            
+        };
     }
 }
 
@@ -187,6 +206,7 @@ void Belmont_ReverbAudioProcessor::setImpulseResponseFromID(int id) {
     
     switch (id)
     {
+            
         case 1: // Echo Plate
             convolution.loadImpulseResponse(BinaryData::Echo_Plate_aif, BinaryData::Echo_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
@@ -224,7 +244,7 @@ void Belmont_ReverbAudioProcessor::setImpulseResponseFromID(int id) {
             
         default:
                     DBG("Invalid IR ID");
-                    break;
+        break;
     }
 }
 
