@@ -16,6 +16,8 @@
     <GROUP id="{F34F4466-6F71-9B0E-FF97-450354BCB51D}" name="Source">
       <FILE id="Ru4wKD" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
+      <FILE id="Rgi5yn" name="OutGain.cpp" compile="1" resource="0" file="Source/OutGain.cpp"/>
+      <FILE id="EWsRZB" name="OutGain.h" compile="0" resource="0" file="Source/OutGain.h"/>
       <FILE id="sLyuGA" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
       <FILE id="mpi99f" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>

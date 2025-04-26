@@ -43,18 +43,18 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
         audioProcessor.dryWetMix = (float) mixSlider.getValue();
     };
     
-    mixSlider.setValue(0.5f);
+    mixSlider.setValue(1.f);
     
     
 //============================================================
     
     //outgain knob
     
-    outGain.setRange(0, 2);
+    outGain.setRange(0, 3);
     outGain.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     
     outGain.onValueChange = [this]() {
-        audioProcessor.gain = (float) outGain.getValue();
+        audioProcessor.outGain = (float) outGain.getValue();
     };
     
     outGain.setValue(1.f);

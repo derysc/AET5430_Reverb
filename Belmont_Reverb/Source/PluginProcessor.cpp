@@ -137,6 +137,8 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
+    gain.setGain(outGain);
+    
     //dry buffer
     juce::AudioBuffer<float> dryBuffer;
     dryBuffer.makeCopyOf(buffer);
@@ -156,7 +158,7 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         for (int n = 0; n < buffer.getNumSamples() ; ++n) {
             
             if (dryWetMix >= 0.0f) {
-                wet[n] = (dry[n] * (1.0f - dryWetMix) + wet[n] * dryWetMix) * gain;
+                wet[n] = (dry[n] * (1.0f - dryWetMix) + wet[n] * dryWetMix) * outGain;
             }
             
         };
