@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "OutGain.h"
+#include "Reverb.h"
 
 //==============================================================================
 /**
@@ -59,9 +60,10 @@ public:
     float dryWetMix = 1.f; // 50%
     float outGain = 1.f; //100%
 private:
-    juce::dsp::ProcessSpec spec;
-    juce::dsp::Convolution convolution;
+//    juce::dsp::ProcessSpec spec;
+//    juce::dsp::Convolution convolution;
     OutGain gain;
+    Reverb reverb;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessor)
