@@ -18,6 +18,8 @@
             file="Source/PluginProcessor.cpp"/>
       <FILE id="Rgi5yn" name="OutGain.cpp" compile="1" resource="0" file="Source/OutGain.cpp"/>
       <FILE id="EWsRZB" name="OutGain.h" compile="0" resource="0" file="Source/OutGain.h"/>
+      <FILE id="w1hJiD" name="Wet_DryMix.cpp" compile="1" resource="0" file="Source/Wet_DryMix.cpp"/>
+      <FILE id="WmF14T" name="Wet_DryMix.h" compile="0" resource="0" file="Source/Wet_DryMix.h"/>
       <FILE id="sLyuGA" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
       <FILE id="mpi99f" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>

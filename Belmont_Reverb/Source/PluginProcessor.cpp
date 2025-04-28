@@ -93,12 +93,7 @@ void Belmont_ReverbAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void Belmont_ReverbAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-//    spec.sampleRate = sampleRate;
-//    spec.maximumBlockSize = samplesPerBlock;
-//    spec.numChannels = getTotalNumOutputChannels();
-//    convolution.prepare(spec);
     reverb.prepare(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
-    
     
 }
 
@@ -139,6 +134,7 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         buffer.clear (i, 0, buffer.getNumSamples());
     
     gain.setGain(outGain);
+    wetDryMix.setMix(dryWetMix);
     
     //dry buffer
     juce::AudioBuffer<float> dryBuffer;
@@ -158,9 +154,7 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         
         for (int n = 0; n < buffer.getNumSamples() ; ++n) {
             
-            if (dryWetMix >= 0.0f) {
-                wet[n] = (dry[n] * (1.0f - dryWetMix) + wet[n] * dryWetMix) * outGain;
-            }
+            wet[n] = wetDryMix.processSample(dry[n], wet[n]) * outGain;
             
         };
     }

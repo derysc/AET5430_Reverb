@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "OutGain.h"
 #include "Reverb.h"
+#include "Wet_DryMix.h"
 
 //==============================================================================
 /**
@@ -57,13 +58,13 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float dryWetMix = 1.f; // 50%
-    float outGain = 1.f; //100%
+    float dryWetMix = 1.f; // 100%
+    float outGain = 1.f;
 private:
-//    juce::dsp::ProcessSpec spec;
-//    juce::dsp::Convolution convolution;
+    
     OutGain gain;
     Reverb reverb;
+    Wet_DryMix wetDryMix;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessor)
