@@ -32,6 +32,11 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
         audioProcessor.setImpulseResponseFromID(id);
     };
     
+    //irComboBoxAttachment = std::make_unique<BoxAttachment>(audioProcessor.apvts,"IRMenu", menu );
+    
+    
+    
+    
 //============================================================
     
     //Dry/Wey slider code
@@ -40,7 +45,7 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     mixSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     
     mixSlider.onValueChange = [this]() {
-        audioProcessor.dryWetMix = (float) mixSlider.getValue();
+        audioProcessor.WetDryChanged(mixSlider.getValue());
     };
     
     mixSlider.setValue(1.f);
@@ -54,10 +59,17 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     outGain.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     
     outGain.onValueChange = [this]() {
-        audioProcessor.outGain = (float) outGain.getValue();
+        audioProcessor.GainKnobChanged(outGain.getValue());
     };
     
     outGain.setValue(1.f);
+    
+    
+    sliderAttachments.emplace_back(std::make_unique<SliderAttachment> (audioProcessor.apvts, "GainKnob", outGain));
+    
+    sliderAttachments.emplace_back(std::make_unique<SliderAttachment>(audioProcessor.apvts, "WetDryKnob", mixSlider));
+    
+    
     
     
 }

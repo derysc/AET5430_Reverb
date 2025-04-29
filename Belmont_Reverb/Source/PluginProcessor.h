@@ -58,9 +58,32 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-    float dryWetMix = 1.f; // 100%
-    float outGain = 1.f;
+   // float dryWetMix = 1.f; // 100%
+    //float outGain = 1.f;
+    
+    juce::AudioProcessorValueTreeState apvts;
+    
+    void GainKnobChanged (float newGain){
+        gainKnobValue.store(newGain);
+    };
+    
+    void WetDryChanged (float value) {
+        WetDryValue.store(value);
+    };
+    
+    void IRChanged (float Ir){
+        currentIR = Ir;
+    }
+    
 private:
+    
+    juce::AudioProcessorValueTreeState::ParameterLayout createParams();
+    
+    std::atomic<float> gainKnobValue;
+    
+    std::atomic<float> WetDryValue;
+    
+    int currentIR;
     
     OutGain gain;
     Reverb reverb;

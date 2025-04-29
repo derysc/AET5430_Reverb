@@ -19,6 +19,11 @@ class Belmont_ReverbAudioProcessorEditor  : public juce::AudioProcessorEditor
 public:
     Belmont_ReverbAudioProcessorEditor (Belmont_ReverbAudioProcessor&);
     ~Belmont_ReverbAudioProcessorEditor() override;
+    
+    using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
+    //using ButtonAttachment = juce::AudioProcessorValueTreeState::ButtonAttachment;
+   // using BoxAttachment = juce::AudioProcessorValueTreeState::ComboBoxAttachment;
+    
 
     //==============================================================================
     void paint (juce::Graphics&) override;
@@ -32,5 +37,10 @@ private:
     juce::ComboBox menu;
     juce::Slider mixSlider;
     juce::Slider outGain;
+    
+    std::vector<std::unique_ptr<SliderAttachment>> sliderAttachments;
+    //std::vector<std::unique_ptr<ButtonAttachment>> buttonAttachments;
+   // std::unique_ptr<BoxAttachment> irComboBoxAttachment;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessorEditor)
 };

@@ -19,13 +19,33 @@ Belmont_ReverbAudioProcessor::Belmont_ReverbAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ) ,
 #endif
+apvts(*this,nullptr,"Params",createParams())
 {
+    
 }
 
 Belmont_ReverbAudioProcessor::~Belmont_ReverbAudioProcessor()
 {
+}
+
+juce::AudioProcessorValueTreeState::ParameterLayout Belmont_ReverbAudioProcessor::createParams()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID({"GainKnob",1}),"Gain",0.f,3.f,1.f));
+    //param ID , version of the plugin
+    // string for the user to read
+    //min value
+    //max value
+    //starting value
+    
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID({"WetDryKnob",1}),"WetDryMix",0.f,1.f,1.f));
+    
+    
+    return {params.begin(), params.end()};
+    
 }
 
 //==============================================================================
@@ -95,6 +115,8 @@ void Belmont_ReverbAudioProcessor::prepareToPlay (double sampleRate, int samples
 {
     reverb.prepare(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
     
+    
+    
 }
 
 void Belmont_ReverbAudioProcessor::releaseResources()
@@ -133,8 +155,33 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
-    gain.setGain(outGain);
-    wetDryMix.setMix(dryWetMix);
+//    gain.setGain(outGain);
+//    wetDryMix.setMix(dryWetMix);
+    
+    float currentGain = gainKnobValue;
+    float currentMix = WetDryValue;
+    
+    gain.setGain(currentGain);
+    wetDryMix.setMix(currentMix);
+    
+//    int currentIr;
+//    auto* irChoice = apvts.getRawParameterValue("IRMenu");
+//    if (irChoice != nullptr){
+//        int currentIr = static_cast<int>(irChoice->load());
+//        if (currentIr != lastIr) {
+//            setImpulseResponseFromID(currentIr);
+//            lastIr = currentIr;
+//        }
+//    } else {
+//        jassertfalse;
+//    }
+//        
+//    int currentIr = static_cast<int>(apvts.getRawParameterValue("IRMenu")->load());
+//    
+//    if (currentIr != lastIr) {
+//        setImpulseResponseFromID(currentIr);
+//        lastIr = currentIr;
+//    }
     
     //dry buffer
     juce::AudioBuffer<float> dryBuffer;
@@ -154,7 +201,7 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         
         for (int n = 0; n < buffer.getNumSamples() ; ++n) {
             
-            wet[n] = wetDryMix.processSample(dry[n], wet[n]) * outGain;
+            wet[n] = wetDryMix.processSample(dry[n], wet[n]) * currentGain;
             
         };
     }
@@ -177,12 +224,25 @@ void Belmont_ReverbAudioProcessor::getStateInformation (juce::MemoryBlock& destD
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    
+    auto currentState = apvts.copyState();
+    
+    std::unique_ptr<juce::XmlElement> xml (currentState.createXml());
+    
+    copyXmlToBinary(*xml, destData);
+    
 }
 
 void Belmont_ReverbAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+    
+    std::unique_ptr<juce::XmlElement> xml (getXmlFromBinary(data, sizeInBytes));
+    juce::ValueTree newTree = juce::ValueTree::fromXml(*xml);
+    apvts.replaceState(newTree);
+    
+    
 }
 
 void Belmont_ReverbAudioProcessor::setImpulseResponseFromID(int id) {
