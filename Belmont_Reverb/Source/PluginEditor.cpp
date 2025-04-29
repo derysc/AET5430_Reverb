@@ -48,7 +48,7 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
         audioProcessor.WetDryChanged(mixSlider.getValue());
     };
     
-    mixSlider.setValue(1.f);
+   // mixSlider.setValue(1.f);
     
     
 //============================================================
@@ -62,7 +62,7 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
         audioProcessor.GainKnobChanged(outGain.getValue());
     };
     
-    outGain.setValue(1.f);
+   // outGain.setValue(1.f);
     
     
     sliderAttachments.emplace_back(std::make_unique<SliderAttachment> (audioProcessor.apvts, "GainKnob", outGain));

@@ -21,7 +21,13 @@ class OutGain
         linGain = std::powf(10.f,gain/20.f);
     }
     
+    float getGain() {
+        return linGain;
+    }
+    
     private:
+    
+    float linGainSmooth[2] = {0.f};
     
     float linGain = 1.f;
     

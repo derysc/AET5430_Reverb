@@ -13,5 +13,6 @@
 
 float OutGain::processSample(float x, const int channel) {
     float y = x * linGain;
+    //linGainSmooth[channel] = 0.99 * linGainSmooth[channel] + 0.01 * linGain;
     return y;
 };

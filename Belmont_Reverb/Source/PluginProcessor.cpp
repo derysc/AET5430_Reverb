@@ -34,7 +34,7 @@ juce::AudioProcessorValueTreeState::ParameterLayout Belmont_ReverbAudioProcessor
 {
     std::vector<std::unique_ptr<juce::RangedAudioParameter>> params;
     
-    params.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID({"GainKnob",1}),"Gain",0.f,3.f,1.f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID({"GainKnob",1}),"Gain",-48.f,10.f,0.f));
     //param ID , version of the plugin
     // string for the user to read
     //min value
@@ -155,33 +155,13 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
-//    gain.setGain(outGain);
-//    wetDryMix.setMix(dryWetMix);
     
-    float currentGain = gainKnobValue;
-    float currentMix = WetDryValue;
+    float currentGain = gainKnobValue.load();
+    float currentMix = WetDryValue.load();
     
     gain.setGain(currentGain);
     wetDryMix.setMix(currentMix);
     
-//    int currentIr;
-//    auto* irChoice = apvts.getRawParameterValue("IRMenu");
-//    if (irChoice != nullptr){
-//        int currentIr = static_cast<int>(irChoice->load());
-//        if (currentIr != lastIr) {
-//            setImpulseResponseFromID(currentIr);
-//            lastIr = currentIr;
-//        }
-//    } else {
-//        jassertfalse;
-//    }
-//        
-//    int currentIr = static_cast<int>(apvts.getRawParameterValue("IRMenu")->load());
-//    
-//    if (currentIr != lastIr) {
-//        setImpulseResponseFromID(currentIr);
-//        lastIr = currentIr;
-//    }
     
     //dry buffer
     juce::AudioBuffer<float> dryBuffer;
@@ -201,9 +181,10 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         
         for (int n = 0; n < buffer.getNumSamples() ; ++n) {
             
-            wet[n] = wetDryMix.processSample(dry[n], wet[n]) * currentGain;
+            wet[n] = (gain.processSample(wetDryMix.processSample(dry[n], wet[n]), channel));
             
         };
+//        wetDryMix.processSample(dry[n], wet[n]) *
     }
 }
 
