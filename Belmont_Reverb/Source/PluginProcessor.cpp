@@ -184,7 +184,6 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
             wet[n] = (gain.processSample(wetDryMix.processSample(dry[n], wet[n]), channel));
             
         };
-//        wetDryMix.processSample(dry[n], wet[n]) *
     }
 }
 
