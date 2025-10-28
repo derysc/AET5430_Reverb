@@ -267,6 +267,21 @@ void Belmont_ReverbAudioProcessor::setImpulseResponseFromID(int id) {
         
         break;
             
+        case 8: //McAfee
+            reverb.convolution.loadImpulseResponse(BinaryData::Mcaffe_Impulse48k_wav, BinaryData::Mcaffe_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            
+        break;
+            
+        case 9: //MPAC
+            reverb.convolution.loadImpulseResponse(BinaryData::MPAC_Impulse48k_wav, BinaryData::MPAC_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            
+        break;
+            
+        case 10: //Classroom
+            reverb.convolution.loadImpulseResponse(BinaryData::Class_Impulse48k_wav, BinaryData::Class_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            
+        break;
+            
         default:
                     DBG("Invalid IR ID");
         break;

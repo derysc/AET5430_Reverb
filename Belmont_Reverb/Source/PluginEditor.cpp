@@ -24,6 +24,9 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     menu.addItem("Large Room" ,5);
     menu.addItem("Medium Hall", 6);
     menu.addItem("Small Hall", 7);
+    menu.addItem("McAfee", 8);
+    menu.addItem("MPAC", 9);
+    menu.addItem("Classroom", 10);
     
     menu.setTextWhenNothingSelected("None");
     

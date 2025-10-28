@@ -12,6 +12,12 @@
       <FILE id="PCW2xl" name="Large Room.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Large Room.aif"/>
       <FILE id="sf5Xu5" name="Medium Hall.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Medium Hall.aif"/>
       <FILE id="xziv9U" name="Small Hall.aif" compile="0" resource="1" file="../../Downloads/Big Gee's Lexicon 480L Reverb/Big Gee's Lexicon 480L/Small Hall.aif"/>
+      <FILE id="czdnBT" name="Class Impulse-48k.wav" compile="0" resource="1"
+            file="../../Downloads/Room Impulse/Class Impulse-48k.wav"/>
+      <FILE id="SNSxaA" name="Mcaffe Impulse-48k.wav" compile="0" resource="1"
+            file="../../Downloads/Mcaffe Impulse-48k.wav"/>
+      <FILE id="vQCzio" name="MPAC Impulse-48k.wav" compile="0" resource="1"
+            file="../../Downloads/Room Impulse/MPAC Impulse-48k.wav"/>
     </GROUP>
     <GROUP id="{F34F4466-6F71-9B0E-FF97-450354BCB51D}" name="Source">
       <FILE id="Ru4wKD" name="PluginProcessor.cpp" compile="1" resource="0"
