@@ -12,6 +12,7 @@
 #include "OutGain.h"
 #include "Reverb.h"
 #include "Wet_DryMix.h"
+#include "Shared_Images.h"
 
 //==============================================================================
 /**
@@ -61,6 +62,9 @@ public:
    // float dryWetMix = 1.f; // 100%
     //float outGain = 1.f;
     
+    Shared_Images* getSharedImages()
+    {return m_pShared_ImagesPtr;};
+    
     juce::AudioProcessorValueTreeState apvts;
     
     void GainKnobChanged (float newGain){
@@ -78,6 +82,8 @@ public:
 private:
     
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
+    
+    juce::SharedResourcePointer<Shared_Images> m_pShared_ImagesPtr;
     
     std::atomic<float> gainKnobValue;
     

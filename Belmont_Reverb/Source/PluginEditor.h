@@ -10,6 +10,7 @@
 
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
+#include "Main_Component.h"
 
 //==============================================================================
 /**
@@ -21,8 +22,6 @@ public:
     ~Belmont_ReverbAudioProcessorEditor() override;
     
     using SliderAttachment = juce::AudioProcessorValueTreeState::SliderAttachment;
-    //using ButtonAttachment = juce::AudioProcessorValueTreeState::ButtonAttachment;
-   // using BoxAttachment = juce::AudioProcessorValueTreeState::ComboBoxAttachment;
     
 
     //==============================================================================
@@ -39,8 +38,8 @@ private:
     juce::Slider outGain;
     
     std::vector<std::unique_ptr<SliderAttachment>> sliderAttachments;
-    //std::vector<std::unique_ptr<ButtonAttachment>> buttonAttachments;
-   // std::unique_ptr<BoxAttachment> irComboBoxAttachment;
+    
+    Main_Component main_componet;
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessorEditor)
 };
