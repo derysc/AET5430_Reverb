@@ -175,7 +175,7 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
-    const float currentGainDb = gainKnobValue.load();
+    const float currentGainDb = *apvts.getRawParameterValue("GainKnob");
    // const float currentMix    = WetDryValue.load();
     
     gain.setGainDecibels(currentGainDb);

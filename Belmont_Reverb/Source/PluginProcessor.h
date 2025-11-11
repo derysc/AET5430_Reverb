@@ -9,9 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include "OutGain.h"
-#include "Reverb.h"
-#include "Wet_DryMix.h"
 #include "Shared_Images.h"
 
 //==============================================================================
@@ -65,15 +62,6 @@ public:
     
     juce::AudioProcessorValueTreeState apvts;
     
-    
-    void GainKnobChanged (float newGain){
-        gainKnobValue.store(newGain);
-    };
-    
-    void WetDryChanged (float value) {
-        WetDryValue.store(value);
-    };
-    
     void IRChanged (float Ir){
         currentIR = Ir;
     }
@@ -83,11 +71,6 @@ private:
     juce::AudioProcessorValueTreeState::ParameterLayout createParams();
     
     juce::SharedResourcePointer<Shared_Images> m_pShared_ImagesPtr;
-    
-    
-    std::atomic<float> gainKnobValue;
-    
-    std::atomic<float> WetDryValue;
     
     int currentIR;
     

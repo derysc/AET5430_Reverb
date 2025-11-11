@@ -25,15 +25,15 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     
     //Dry/Wey slider code
     
-    mixSlider.setRange(0, 1);
-    mixSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
-    
-    mixSlider.onValueChange = [this]() {
-        audioProcessor.WetDryChanged(mixSlider.getValue());
-    };
-    
-    mixSlider.setValue(1.f);
-    
+//    mixSlider.setRange(0, 1);
+//    mixSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
+//    
+//    mixSlider.onValueChange = [this]() {
+//        audioProcessor.WetDryChanged(mixSlider.getValue());
+//    };
+//    
+//    mixSlider.setValue(1.f);
+//    
     
 //============================================================
     

@@ -11,7 +11,7 @@
 #include "JuceHeader.h"
 #include "Main_Component.h"
 
-Main_Component::Main_Component(Belmont_ReverbAudioProcessor& p) : audioprocessor(p), m_pShared_Images(p.getSharedImages()), hitPads(m_pShared_Images)
+Main_Component::Main_Component(Belmont_ReverbAudioProcessor& p) : audioprocessor(p), m_pShared_Images(p.getSharedImages()), hitPads(m_pShared_Images), gainKnob(m_pShared_Images, p.apvts, "GainKnob")
 
 {
     
@@ -35,6 +35,13 @@ Main_Component::Main_Component(Belmont_ReverbAudioProcessor& p) : audioprocessor
     };
     
     addAndMakeVisible(hitPads);
+    addAndMakeVisible(gainKnob);
+    
+   // sliderAttachments.emplace_back(std::make_unique<SliderAttachment> (audioProcessor.apvts, "GainKnob", outGain));
+ //   sliderAttachments.emplace_back(std::make_unique<SliderAttachment>(audioProcessor.apvts, "WetDryKnob", mixSlider));
+    
+//    sliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
+//    (audioprocessor.apvts, "GainKnob", gainKnob);
     
     bypassAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>
     (audioprocessor.apvts, "Bypass", hitPads);
@@ -57,4 +64,5 @@ void Main_Component::paint(juce::Graphics& g) {
 void Main_Component::resized()
 {
     hitPads.setBounds(736, 28, 182, 210);
+    gainKnob.setBounds(400, 400, 252, 252);
 }

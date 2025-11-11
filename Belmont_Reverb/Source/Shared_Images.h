@@ -33,6 +33,10 @@ public:
         return m_PadButtonOff;
     };
     
+    juce::Image& getMediumKnob() {
+        return m_MediumKnob;
+    }
+    
     
     
     private:
@@ -42,6 +46,8 @@ public:
     juce::Image m_PadButtonOn;
     
     juce::Image m_PadButtonOff;
+    
+    juce::Image m_MediumKnob;
         
     
 };

@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "Shared_Images.h"
 #include "Button_Widgets.h"
+#include "Knob_Widgets.h"
 
 class Main_Component : public juce::Component
 {
@@ -33,8 +34,11 @@ private:
     
     juce::ComboBox menu;
     HitPads hitPads;
+    MediumKnob gainKnob;
     
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> bypassAttachment;
+    
+    std::unique_ptr<juce::AudioProcessorValueTreeState::SliderAttachment> sliderAttachment;
     
 };
 
