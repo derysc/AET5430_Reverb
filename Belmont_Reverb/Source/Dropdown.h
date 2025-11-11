@@ -1,8 +1,8 @@
 /*
   ==============================================================================
 
-    OutGain.h
-    Created: 26 Apr 2025 1:34:51am
+    Dropdown.h
+    Created: 10 Nov 2025 3:36:27pm
     Author:  Derys
 
   ==============================================================================
@@ -10,12 +10,8 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "PluginProcessor.h"
 
-//class OutGain
-//{
-//    public:
-//        
-////    juce::dsp::Gain<float> gain;
-////    juce::dsp::ProcessSpec spec;
-//    
-//};
+class Dropdown : public
+{
+}

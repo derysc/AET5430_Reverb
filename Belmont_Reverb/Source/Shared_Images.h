@@ -22,18 +22,26 @@ public:
     void loadImages() ;
     
     juce::Image& getBackground() {
-            return m_Background;
-        };
+        return m_Background;
+    };
+    
+    juce::Image& getPadButtonOn() {
+        return m_PadButtonOn;
+    };
+    
+    juce::Image& getPadButtonOff() {
+        return m_PadButtonOff;
+    };
     
     
     
     private:
     
     juce::Image m_Background;
-        
-        
-
     
+    juce::Image m_PadButtonOn;
     
+    juce::Image m_PadButtonOff;
+        
     
 };

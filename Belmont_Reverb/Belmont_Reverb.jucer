@@ -3,31 +3,46 @@
 <JUCERPROJECT id="aAgwRL" name="Belmont_Reverb" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="x2zZrF" name="Belmont_Reverb">
+    <GROUP id="{C34640F7-422F-8B1D-6541-720AA1D4B090}" name="Old">
+      <FILE id="eOWMxw" name="Dropdown.h" compile="0" resource="0" file="Source/Dropdown.h"/>
+      <FILE id="epmLo8" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
+      <FILE id="Rgi5yn" name="OutGain.cpp" compile="1" resource="0" file="Source/OutGain.cpp"/>
+      <FILE id="mpi99f" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
+      <FILE id="EWsRZB" name="OutGain.h" compile="0" resource="0" file="Source/OutGain.h"/>
+      <FILE id="w1hJiD" name="Wet_DryMix.cpp" compile="1" resource="0" file="Source/Wet_DryMix.cpp"/>
+      <FILE id="WmF14T" name="Wet_DryMix.h" compile="0" resource="0" file="Source/Wet_DryMix.h"/>
+    </GROUP>
     <GROUP id="{C15DC41C-A6B6-8172-597C-14A6DCF29A82}" name="Assets">
       <GROUP id="{5AC27A64-52A6-D554-C11A-FF3A60245123}" name="Background">
-        <FILE id="OgQm47" name="background.png" compile="0" resource="1" file="Assets/Background/background.png"/>
+        <FILE id="fpdT3P" name="background.png" compile="0" resource="1" file="Assets/Background/background.png"/>
       </GROUP>
-      <GROUP id="{5FDD461A-9379-6E6C-29F1-4F13E386E3B5}" name="Buttons"/>
+      <GROUP id="{5FDD461A-9379-6E6C-29F1-4F13E386E3B5}" name="Buttons">
+        <FILE id="ZxPuyK" name="Button_dis_3.png" compile="0" resource="1"
+              file="Assets/Buttons/Button_dis_3.png"/>
+        <FILE id="N6DvhJ" name="Button_en_3.png" compile="0" resource="1" file="Assets/Buttons/Button_en_3.png"/>
+      </GROUP>
       <GROUP id="{FA821374-EA7A-7519-BE58-267285E41899}" name="Impulse Responses">
-        <FILE id="dFCGNP" name="A Plate.aif" compile="0" resource="1" file="Assets/Impulse Responses/A Plate.aif"/>
-        <FILE id="kdlrKZ" name="Class Impulse-48k.wav" compile="0" resource="1"
+        <FILE id="d9MRfw" name="A Plate.aif" compile="0" resource="1" file="Assets/Impulse Responses/A Plate.aif"/>
+        <FILE id="JBb8h8" name="Class Impulse-48k.wav" compile="0" resource="1"
               file="Assets/Impulse Responses/Class Impulse-48k.wav"/>
-        <FILE id="ZGbJrv" name="Echo Plate.aif" compile="0" resource="1" file="Assets/Impulse Responses/Echo Plate.aif"/>
-        <FILE id="ZjxCJL" name="Jazz Hall.aif" compile="0" resource="1" file="Assets/Impulse Responses/Jazz Hall.aif"/>
-        <FILE id="dJxxGx" name="Large Church.aif" compile="0" resource="1"
+        <FILE id="z33ohJ" name="Echo Plate.aif" compile="0" resource="1" file="Assets/Impulse Responses/Echo Plate.aif"/>
+        <FILE id="HqiZt2" name="Jazz Hall.aif" compile="0" resource="1" file="Assets/Impulse Responses/Jazz Hall.aif"/>
+        <FILE id="mBEYWm" name="Large Church.aif" compile="0" resource="1"
               file="Assets/Impulse Responses/Large Church.aif"/>
-        <FILE id="XWQime" name="Large Room.aif" compile="0" resource="1" file="Assets/Impulse Responses/Large Room.aif"/>
-        <FILE id="CNEv2z" name="Mcaffe Impulse-48k.wav" compile="0" resource="1"
+        <FILE id="jYTnm5" name="Large Room.aif" compile="0" resource="1" file="Assets/Impulse Responses/Large Room.aif"/>
+        <FILE id="lLMUgH" name="Mcaffe Impulse-48k.wav" compile="0" resource="1"
               file="Assets/Impulse Responses/Mcaffe Impulse-48k.wav"/>
-        <FILE id="saPDFB" name="Medium Hall.aif" compile="0" resource="1" file="Assets/Impulse Responses/Medium Hall.aif"/>
-        <FILE id="DwJEhF" name="MPAC Impulse-48k.wav" compile="0" resource="1"
+        <FILE id="onH4Ye" name="Medium Hall.aif" compile="0" resource="1" file="Assets/Impulse Responses/Medium Hall.aif"/>
+        <FILE id="yRve8B" name="MPAC Impulse-48k.wav" compile="0" resource="1"
               file="Assets/Impulse Responses/MPAC Impulse-48k.wav"/>
-        <FILE id="CnUgR4" name="Small Hall.aif" compile="0" resource="1" file="Assets/Impulse Responses/Small Hall.aif"/>
+        <FILE id="zuFVwp" name="Small Hall.aif" compile="0" resource="1" file="Assets/Impulse Responses/Small Hall.aif"/>
       </GROUP>
       <GROUP id="{E1BD8665-D338-8161-9A2D-E3B586E56AA4}" name="Knobs"/>
       <GROUP id="{DD8F718D-3555-E98F-95B0-AFEFBB0C645D}" name="Meters"/>
     </GROUP>
     <GROUP id="{F34F4466-6F71-9B0E-FF97-450354BCB51D}" name="Source">
+      <FILE id="lmV2ZD" name="Button_Widgets.h" compile="0" resource="0"
+            file="Source/Button_Widgets.h"/>
       <FILE id="yKij1f" name="Main_Component.cpp" compile="1" resource="0"
             file="Source/Main_Component.cpp"/>
       <FILE id="n4b4rM" name="Main_Component.h" compile="0" resource="0"
@@ -37,14 +52,8 @@
       <FILE id="PIIILz" name="Shared_Images.cpp" compile="1" resource="0"
             file="Source/Shared_Images.cpp"/>
       <FILE id="QIitkj" name="Shared_Images.h" compile="0" resource="0" file="Source/Shared_Images.h"/>
-      <FILE id="Rgi5yn" name="OutGain.cpp" compile="1" resource="0" file="Source/OutGain.cpp"/>
-      <FILE id="EWsRZB" name="OutGain.h" compile="0" resource="0" file="Source/OutGain.h"/>
-      <FILE id="w1hJiD" name="Wet_DryMix.cpp" compile="1" resource="0" file="Source/Wet_DryMix.cpp"/>
-      <FILE id="WmF14T" name="Wet_DryMix.h" compile="0" resource="0" file="Source/Wet_DryMix.h"/>
       <FILE id="sLyuGA" name="PluginProcessor.h" compile="0" resource="0"
             file="Source/PluginProcessor.h"/>
-      <FILE id="mpi99f" name="Reverb.cpp" compile="1" resource="0" file="Source/Reverb.cpp"/>
-      <FILE id="epmLo8" name="Reverb.h" compile="0" resource="0" file="Source/Reverb.h"/>
       <FILE id="JkkumA" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
       <FILE id="YpwHwv" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>

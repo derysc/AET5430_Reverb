@@ -41,8 +41,15 @@ juce::AudioProcessorValueTreeState::ParameterLayout Belmont_ReverbAudioProcessor
     //max value
     //starting value
     
-    params.push_back(std::make_unique<juce::AudioParameterFloat>(juce::ParameterID({"WetDryKnob",1}),"WetDryMix",0.f,1.f,1.f));
+    params.push_back(std::make_unique<juce::AudioParameterFloat>(
+            juce::ParameterID({"WetDryKnob",1}),
+            "WetDryMix",0.f,1.f,1.f));
     
+    params.push_back(std::make_unique<juce::AudioParameterBool>(
+            juce::ParameterID{"Bypass", 1},  // unique ParameterID
+            "Bypass",                        // display name
+            false                            // default = off (not bypassed)
+        ));
     
     return {params.begin(), params.end()};
     
@@ -113,15 +120,22 @@ void Belmont_ReverbAudioProcessor::changeProgramName (int index, const juce::Str
 //==============================================================================
 void Belmont_ReverbAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-    reverb.prepare(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
-    
-    
+//    reverb.prepare(sampleRate, samplesPerBlock, getTotalNumOutputChannels());
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = samplesPerBlock;
+    spec.numChannels = getTotalNumOutputChannels();
+    gain.prepare(spec);
+    mix.prepare(spec);
+    reverb.prepare(spec);
     
 }
 
 void Belmont_ReverbAudioProcessor::releaseResources()
 {
-    reverb.convolution.reset();
+    gain.reset();
+    mix.reset();
+    reverb.reset();
+    
 }
 
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -147,44 +161,39 @@ bool Belmont_ReverbAudioProcessor::isBusesLayoutSupported (const BusesLayout& la
 
 void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
+
     juce::ScopedNoDenormals noDenormals;
+    
+    if (apvts.getRawParameterValue("Bypass")->load())
+    {
+        return;
+    }
+    
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-    
     
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
     
+    const float currentGainDb = gainKnobValue.load();
+   // const float currentMix    = WetDryValue.load();
     
-    float currentGain = gainKnobValue.load();
-    float currentMix = WetDryValue.load();
+    gain.setGainDecibels(currentGainDb);
+    mix.setWetMixProportion(1.f);
     
-    gain.setGain(currentGain);
-    wetDryMix.setMix(currentMix);
-    
-    
-    //dry buffer
-    juce::AudioBuffer<float> dryBuffer;
-    dryBuffer.makeCopyOf(buffer);
-    
-    //wet buffer processing
+    //dry block
     juce::dsp::AudioBlock <float> block (buffer);
-    if (reverb.convolution.getCurrentIRSize() > 0 ) {
-        reverb.convolution.process(juce::dsp::ProcessContextReplacing<float>(block));
+    //wet block
+    juce::dsp::ProcessContextReplacing<float> context (block);
+    
+    mix.pushDrySamples(block);
+   
+    if(reverb.getCurrentIRSize() > 0) {
+        reverb.process(context);
+        mix.mixWetSamples(block);
     }
     
-    for (int channel = 0; channel < totalNumOutputChannels; ++channel) {
-        
-        auto* dry = dryBuffer.getReadPointer(channel);
-        auto* wet = buffer.getWritePointer(channel);
-        
-        
-        for (int n = 0; n < buffer.getNumSamples() ; ++n) {
-            
-            wet[n] = (gain.processSample(wetDryMix.processSample(dry[n], wet[n]), channel));
-            
-        };
-    }
+    gain.process(context);
 }
 
 //==============================================================================
@@ -227,58 +236,58 @@ void Belmont_ReverbAudioProcessor::setStateInformation (const void* data, int si
 
 void Belmont_ReverbAudioProcessor::setImpulseResponseFromID(int id) {
     
-    reverb.convolution.reset();
+    reverb.reset();
     
     switch (id)
     {
             
         case 1: // Echo Plate
-            reverb.convolution.loadImpulseResponse(BinaryData::Echo_Plate_aif, BinaryData::Echo_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Echo_Plate_aif, BinaryData::Echo_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
          
         case 2: // A Plate
-            reverb.convolution.loadImpulseResponse(BinaryData::A_Plate_aif, BinaryData::A_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::A_Plate_aif, BinaryData::A_Plate_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
             
         case 3: // Jazz Hall
-            reverb.convolution.loadImpulseResponse(BinaryData::Jazz_Hall_aif, BinaryData::Jazz_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Jazz_Hall_aif, BinaryData::Jazz_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
             
         case 4: // Large Church
-            reverb.convolution.loadImpulseResponse(BinaryData::Large_Church_aif, BinaryData::Large_Church_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Large_Church_aif, BinaryData::Large_Church_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
             
         case 5: // Large Room
-            reverb.convolution.loadImpulseResponse(BinaryData::Large_Room_aif, BinaryData::Large_Room_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Large_Room_aif, BinaryData::Large_Room_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
             
         case 6: // Medium Hall
-            reverb.convolution.loadImpulseResponse(BinaryData::Medium_Hall_aif, BinaryData::Medium_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Medium_Hall_aif, BinaryData::Medium_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
             
         case 7: // Small Hall
-            reverb.convolution.loadImpulseResponse(BinaryData::Small_Hall_aif, BinaryData::Small_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Small_Hall_aif, BinaryData::Small_Hall_aifSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
         
         break;
             
         case 8: //McAfee
-            reverb.convolution.loadImpulseResponse(BinaryData::Mcaffe_Impulse48k_wav, BinaryData::Mcaffe_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Mcaffe_Impulse48k_wav, BinaryData::Mcaffe_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
             
         break;
             
         case 9: //MPAC
-            reverb.convolution.loadImpulseResponse(BinaryData::MPAC_Impulse48k_wav, BinaryData::MPAC_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::MPAC_Impulse48k_wav, BinaryData::MPAC_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
             
         break;
             
         case 10: //Classroom
-            reverb.convolution.loadImpulseResponse(BinaryData::Class_Impulse48k_wav, BinaryData::Class_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
+            reverb.loadImpulseResponse(BinaryData::Class_Impulse48k_wav, BinaryData::Class_Impulse48k_wavSize, juce::dsp::Convolution::Stereo::yes, juce::dsp::Convolution::Trim::yes,0);
             
         break;
             

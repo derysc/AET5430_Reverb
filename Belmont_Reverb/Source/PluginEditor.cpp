@@ -16,25 +16,6 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     
     setSize (1000, 700);
     
-    //Dropdown menu code
-    menu.addItem("Echo Plate", 1);
-    menu.addItem("A Plate", 2);
-    menu.addItem("Jazz Hall", 3);
-    menu.addItem("Large Church", 4);
-    menu.addItem("Large Room" ,5);
-    menu.addItem("Medium Hall", 6);
-    menu.addItem("Small Hall", 7);
-    menu.addItem("McAfee", 8);
-    menu.addItem("MPAC", 9);
-    menu.addItem("Classroom", 10);
-    
-    menu.setTextWhenNothingSelected("None");
-    
-    menu.onChange = [this]() {
-        auto id = menu.getSelectedId();
-        audioProcessor.setImpulseResponseFromID(id);
-    };
-    
     addAndMakeVisible(main_componet);
     
     //irComboBoxAttachment = std::make_unique<BoxAttachment>(audioProcessor.apvts,"IRMenu", menu );
@@ -44,14 +25,14 @@ Belmont_ReverbAudioProcessorEditor::Belmont_ReverbAudioProcessorEditor (Belmont_
     
     //Dry/Wey slider code
     
-//    mixSlider.setRange(0, 1);
-//    mixSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
-//    
-//    mixSlider.onValueChange = [this]() {
-//        audioProcessor.WetDryChanged(mixSlider.getValue());
-//    };
+    mixSlider.setRange(0, 1);
+    mixSlider.setSliderStyle(juce::Slider::RotaryVerticalDrag);
     
-   // mixSlider.setValue(1.f);
+    mixSlider.onValueChange = [this]() {
+        audioProcessor.WetDryChanged(mixSlider.getValue());
+    };
+    
+    mixSlider.setValue(1.f);
     
     
 //============================================================
@@ -92,12 +73,6 @@ void Belmont_ReverbAudioProcessorEditor::paint (juce::Graphics& g)
 //    g.drawSingleLineText("Dry/Wet", 487,209);
 //    g.drawSingleLineText("Program:",40,60 );
 //    g.drawSingleLineText("OutGain", 487, 60);
-//    
-//    
-//    
-//    addAndMakeVisible(menu);
-//    menu.setBounds(120,40, 150, 30);
-//    
 //    
 //    addAndMakeVisible(mixSlider);
 //    mixSlider.setBounds(380, 118, 200,300);

@@ -13,6 +13,7 @@
 #include "JuceHeader.h"
 #include "PluginProcessor.h"
 #include "Shared_Images.h"
+#include "Button_Widgets.h"
 
 class Main_Component : public juce::Component
 {
@@ -25,9 +26,15 @@ public:
     void resized() override;
     
 private:
+    
+    
     Belmont_ReverbAudioProcessor& audioprocessor;
     Shared_Images* m_pShared_Images;
     
+    juce::ComboBox menu;
+    HitPads hitPads;
+    
+    std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> bypassAttachment;
     
 };
 

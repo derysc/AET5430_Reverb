@@ -14,4 +14,8 @@ void Shared_Images::loadImages() {
     
     m_Background = juce::ImageCache::getFromMemory(BinaryData::background_png, BinaryData::background_pngSize);
     
+    m_PadButtonOn = juce::ImageCache::getFromMemory(BinaryData::Button_en_3_png, BinaryData::Button_en_3_pngSize);
+    
+    m_PadButtonOff = juce::ImageCache::getFromMemory(BinaryData::Button_dis_3_png, BinaryData::Button_dis_3_pngSize);
+    
 }

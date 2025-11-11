@@ -59,13 +59,12 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-   // float dryWetMix = 1.f; // 100%
-    //float outGain = 1.f;
     
     Shared_Images* getSharedImages()
     {return m_pShared_ImagesPtr;};
     
     juce::AudioProcessorValueTreeState apvts;
+    
     
     void GainKnobChanged (float newGain){
         gainKnobValue.store(newGain);
@@ -85,15 +84,25 @@ private:
     
     juce::SharedResourcePointer<Shared_Images> m_pShared_ImagesPtr;
     
+    
     std::atomic<float> gainKnobValue;
     
     std::atomic<float> WetDryValue;
     
     int currentIR;
     
-    OutGain gain;
-    Reverb reverb;
-    Wet_DryMix wetDryMix;
+    //DSP Effects
+    
+    juce::AudioParameterBool* bypassParam;
+    
+    juce::dsp::ProcessSpec spec;
+    juce::dsp::Gain<float> gain;
+    juce::dsp::DryWetMixer<float> mix;
+    juce::dsp::Convolution reverb;
+    
+    //OutGain gain;
+    //Reverb reverb;
+   // Wet_DryMix wetDryMix;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessor)
