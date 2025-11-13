@@ -15,6 +15,7 @@
 #include "Shared_Images.h"
 #include "Button_Widgets.h"
 #include "Knob_Widgets.h"
+#include "Meter_Widget.h"
 
 class Main_Component : public juce::Component
 {
@@ -29,12 +30,15 @@ public:
 private:
     
     
+    
     Belmont_ReverbAudioProcessor& audioprocessor;
     Shared_Images* m_pShared_Images;
     
     juce::ComboBox menu;
     HitPads hitPads;
     MediumKnob gainKnob;
+    MediumKnob mixKnob;
+    SimpleMeter meter;
     
     std::unique_ptr<juce::AudioProcessorValueTreeState::ButtonAttachment> bypassAttachment;
     

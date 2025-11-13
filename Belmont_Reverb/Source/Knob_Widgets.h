@@ -38,7 +38,7 @@ class MediumKnob : public juce::Slider
         
         const int frameStartY = frameIdx * frameHeight;
         
-        g.drawImage(knobImage, 0, 0, getWidth(), getHeight(), 0, frameStartY, 252, frameHeight);
+        g.drawImage(knobImage, 0, 0, 150, 150 , 0, frameStartY, 252, frameHeight);
         
     }
     

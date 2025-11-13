@@ -11,7 +11,8 @@
 #include "JuceHeader.h"
 #include "Main_Component.h"
 
-Main_Component::Main_Component(Belmont_ReverbAudioProcessor& p) : audioprocessor(p), m_pShared_Images(p.getSharedImages()), hitPads(m_pShared_Images), gainKnob(m_pShared_Images, p.apvts, "GainKnob")
+Main_Component::Main_Component(Belmont_ReverbAudioProcessor& p) : audioprocessor(p), m_pShared_Images(p.getSharedImages()), hitPads(m_pShared_Images), gainKnob(m_pShared_Images, p.apvts, "GainKnob"), mixKnob(m_pShared_Images, p.apvts, "MixKnob"),
+    meter(audioprocessor)
 
 {
     
@@ -36,12 +37,9 @@ Main_Component::Main_Component(Belmont_ReverbAudioProcessor& p) : audioprocessor
     
     addAndMakeVisible(hitPads);
     addAndMakeVisible(gainKnob);
-    
-   // sliderAttachments.emplace_back(std::make_unique<SliderAttachment> (audioProcessor.apvts, "GainKnob", outGain));
- //   sliderAttachments.emplace_back(std::make_unique<SliderAttachment>(audioProcessor.apvts, "WetDryKnob", mixSlider));
-    
-//    sliderAttachment = std::make_unique<juce::AudioProcessorValueTreeState::SliderAttachment>
-//    (audioprocessor.apvts, "GainKnob", gainKnob);
+    addAndMakeVisible(mixKnob);
+    addAndMakeVisible(menu);
+    addAndMakeVisible(meter);
     
     bypassAttachment = std::make_unique<juce::AudioProcessorValueTreeState::ButtonAttachment>
     (audioprocessor.apvts, "Bypass", hitPads);
@@ -55,14 +53,15 @@ Main_Component::~Main_Component()
 }
 
 void Main_Component::paint(juce::Graphics& g) {
-    
-    g.drawImage(m_pShared_Images->getBackground(), 0, 0, getWidth(), getHeight(), 0, 0, 2000, 1400);
-    addAndMakeVisible(menu);
-    menu.setBounds(120,40, 150, 30);
+
+    g.fillAll(juce::Colours::darkgrey);
 }
 
 void Main_Component::resized()
 {
-    hitPads.setBounds(736, 28, 182, 210);
-    gainKnob.setBounds(400, 400, 252, 252);
+    menu.setBounds( 52 , 184 , 120 , 45);
+    hitPads.setBounds(50, 25 , 125 , 177);
+    gainKnob.setBounds( 800 , 300 , 252, 252);
+    mixKnob.setBounds( 800 , 100 , 252, 252);
+    meter.setBounds(300, 20, 20, 150);
 }

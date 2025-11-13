@@ -42,8 +42,8 @@ juce::AudioProcessorValueTreeState::ParameterLayout Belmont_ReverbAudioProcessor
     //starting value
     
     params.push_back(std::make_unique<juce::AudioParameterFloat>(
-            juce::ParameterID({"WetDryKnob",1}),
-            "WetDryMix",0.f,1.f,1.f));
+            juce::ParameterID({"MixKnob",1}),
+            "MixKnob",0.f,1.f,1.f));
     
     params.push_back(std::make_unique<juce::AudioParameterBool>(
             juce::ParameterID{"Bypass", 1},  // unique ParameterID
@@ -166,6 +166,21 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     
     if (apvts.getRawParameterValue("Bypass")->load())
     {
+        float rms = 0.0f;
+
+        for (int ch = 0; ch < buffer.getNumChannels(); ++ch)
+        {
+            rms += buffer.getRMSLevel(ch, 0, buffer.getNumSamples());
+        }
+
+        rms /= buffer.getNumChannels();
+
+        // convert to dB but clamp to avoid -inf
+        float dB = juce::Decibels::gainToDecibels(rms, -80.0f);
+
+        // store in atomic
+        outputLevel.store(dB);
+        
         return;
     }
     
@@ -176,10 +191,10 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         buffer.clear (i, 0, buffer.getNumSamples());
     
     const float currentGainDb = *apvts.getRawParameterValue("GainKnob");
-   // const float currentMix    = WetDryValue.load();
+    const float currentMix    = *apvts.getRawParameterValue("MixKnob");
     
     gain.setGainDecibels(currentGainDb);
-    mix.setWetMixProportion(1.f);
+    mix.setWetMixProportion(currentMix);
     
     //dry block
     juce::dsp::AudioBlock <float> block (buffer);
@@ -194,6 +209,21 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
     }
     
     gain.process(context);
+    
+    float rms = 0.0f;
+
+    for (int ch = 0; ch < buffer.getNumChannels(); ++ch)
+    {
+        rms += buffer.getRMSLevel(ch, 0, buffer.getNumSamples());
+    }
+
+    rms /= buffer.getNumChannels();
+
+    // convert to dB but clamp to avoid -inf
+    float dB = juce::Decibels::gainToDecibels(rms, -80.0f);
+
+    // store in atomic
+    outputLevel.store(dB);
 }
 
 //==============================================================================

@@ -60,6 +60,8 @@ public:
     Shared_Images* getSharedImages()
     {return m_pShared_ImagesPtr;};
     
+    float getOutputLevel() const { return outputLevel;}
+    
     juce::AudioProcessorValueTreeState apvts;
     
     void IRChanged (float Ir){
@@ -76,16 +78,14 @@ private:
     
     //DSP Effects
     
+    std::atomic<float> outputLevel = 0.0f;
+    
     juce::AudioParameterBool* bypassParam;
     
     juce::dsp::ProcessSpec spec;
     juce::dsp::Gain<float> gain;
     juce::dsp::DryWetMixer<float> mix;
     juce::dsp::Convolution reverb;
-    
-    //OutGain gain;
-    //Reverb reverb;
-   // Wet_DryMix wetDryMix;
     
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Belmont_ReverbAudioProcessor)
