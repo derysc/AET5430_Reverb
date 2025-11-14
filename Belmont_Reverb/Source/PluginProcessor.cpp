@@ -181,6 +181,11 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
         // store in atomic
         outputLevel.store(dB);
         
+        const auto* read = buffer.getReadPointer(0);
+
+            for (int i = 0; i < buffer.getNumSamples(); ++i)
+                pushNextSampleIntoFifo(read[i]);
+        
         return;
     }
     
@@ -224,6 +229,30 @@ void Belmont_ReverbAudioProcessor::processBlock (juce::AudioBuffer<float>& buffe
 
     // store in atomic
     outputLevel.store(dB);
+    
+    const auto* read = buffer.getReadPointer(0);
+
+        for (int i = 0; i < buffer.getNumSamples(); ++i)
+            pushNextSampleIntoFifo(read[i]);
+}
+
+void Belmont_ReverbAudioProcessor::pushNextSampleIntoFifo(float sample)
+{
+    int index = fifoIndex.load();
+
+    if (index == fftSize)
+        return;
+
+    fifo[index] = sample;
+
+    fifoIndex.store(index + 1);
+
+    if (fifoIndex.load() == fftSize)
+    {
+        std::copy(fifo.begin(), fifo.end(), fftBuffer.begin());
+        nextFFTBlockReady.store(true);
+        fifoIndex.store(0);
+    }
 }
 
 //==============================================================================

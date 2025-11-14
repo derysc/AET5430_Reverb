@@ -45,6 +45,7 @@
       <FILE id="WmF14T" name="Wet_DryMix.h" compile="0" resource="0" file="Source/Wet_DryMix.h"/>
     </GROUP>
     <GROUP id="{F34F4466-6F71-9B0E-FF97-450354BCB51D}" name="Source">
+      <FILE id="Qwv2ao" name="RTA_Widget.h" compile="0" resource="0" file="Source/RTA_Widget.h"/>
       <FILE id="T34Pzo" name="Meter_Widget.h" compile="0" resource="0" file="Source/Meter_Widget.h"/>
       <FILE id="QX1cJX" name="Knob_Widgets.h" compile="0" resource="0" file="Source/Knob_Widgets.h"/>
       <FILE id="lmV2ZD" name="Button_Widgets.h" compile="0" resource="0"

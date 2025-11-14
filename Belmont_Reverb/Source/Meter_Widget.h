@@ -34,8 +34,9 @@ public:
         g.fillRect(bounds);
 
         g.setGradientFill(gradient);
-        const auto scaledY = juce::jmap(dbLevel, -60.f, 6.f, 0.f, static_cast<float>(getHeight()));
+        const auto scaledY = juce::jmap(dbLevel, -60.f, 10.f, 0.f, static_cast<float>(getHeight()));
         g.fillRect(bounds.removeFromBottom(scaledY));
+        
     }
 
     void resized() override
@@ -56,12 +57,7 @@ public:
     void updateMeter()
     {
         
-        dbLevel = audioProcessor.getOutputLevel(); // linear amp
-    //    dbLevel = juce::Decibels::gainToDecibels (linLevel, -100.f);
-
-//        DBG("DB Level: " + juce::String(dbLevel));
-        
-//        mappedValue = juce::jmap(dbLevel, -100.f, 0.f, 0.f, numFrames); // Mapping level from 0 to size of image array
+        dbLevel = audioProcessor.getOutputLevel();
           
         repaint();
     }

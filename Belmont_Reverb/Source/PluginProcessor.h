@@ -64,6 +64,20 @@ public:
     
     juce::AudioProcessorValueTreeState apvts;
     
+    static constexpr int fftOrder = 11;       // 2048-point FFT
+    static constexpr int fftSize  = 1 << fftOrder;
+
+    juce::dsp::FFT fft { fftOrder };
+
+    std::array<float, fftSize> fifo {};
+    std::array<float, fftSize * 2> fftBuffer {};
+
+    std::atomic<int> fifoIndex { 0 };
+    std::atomic<bool> nextFFTBlockReady { false };
+    
+    void pushNextSampleIntoFifo(float sample);
+
+    
     void IRChanged (float Ir){
         currentIR = Ir;
     }

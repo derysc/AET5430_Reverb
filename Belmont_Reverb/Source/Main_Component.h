@@ -16,6 +16,7 @@
 #include "Button_Widgets.h"
 #include "Knob_Widgets.h"
 #include "Meter_Widget.h"
+#include "RTA_Widget.h"
 
 class Main_Component : public juce::Component
 {
@@ -30,6 +31,7 @@ public:
 private:
     
     
+    std::unique_ptr<RTAComponent> rta;
     
     Belmont_ReverbAudioProcessor& audioprocessor;
     Shared_Images* m_pShared_Images;

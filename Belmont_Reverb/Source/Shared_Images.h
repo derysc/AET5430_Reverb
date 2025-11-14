@@ -37,6 +37,9 @@ public:
         return m_MediumKnob;
     }
     
+    juce::Image& getMediumKnobScale() {
+        return m_MediumKnobScale;
+    }
     
     
     private:
@@ -48,6 +51,8 @@ public:
     juce::Image m_PadButtonOff;
     
     juce::Image m_MediumKnob;
+    
+    juce::Image m_MediumKnobScale;
         
     
 };

@@ -20,4 +20,5 @@ void Shared_Images::loadImages() {
     
     m_MediumKnob = juce::ImageCache::getFromMemory(BinaryData::Knob_middle_png, BinaryData::Knob_middle_pngSize);
     
+    m_MediumKnobScale = juce::ImageCache::getFromMemory(BinaryData::Knob_middle_scale_blue_png, BinaryData::Knob_middle_scale_blue_pngSize);
 }
